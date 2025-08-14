@@ -48,6 +48,8 @@ apt-get update
 apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
+---
+
 ### 2️⃣ Verificar Conectividad entre Nodos
 
 * Probar conectividad entre **workers** y **manager**:
@@ -67,6 +69,8 @@ chmod 600 ~/.ssh/config
 chmod 644 ~/.ssh/known_hosts
 ```
 
+---
+
 ### 3️⃣ Revisar Prerrequisitos de las VMs
     * Requisitos del sistema y compatibilidad: revisar guía oficial de Rancher.
     https://rancher.com/docs/rancher/v2.6/en/installation/requirements/
@@ -78,6 +82,8 @@ sudo swapoff -a
 # Deshabilitar swap en reinicios
 sudo sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
 ```
+
+---
 
 ### 4️⃣ Configurar Parámetros Requeridos por RKE
 
@@ -97,6 +103,8 @@ EOF
 sudo sysctl --system
 ```
 
+---
+
 ### 5️⃣ Instalar kubectl
     https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
@@ -105,6 +113,8 @@ sudo sysctl --system
 
 ### 7️⃣ Instalar RKE
     https://rancher.com/docs/rke/latest/en/installation/
+
+---
 
 ```bash
 # Descargar la versión estable (ejemplo v1.3.4)
