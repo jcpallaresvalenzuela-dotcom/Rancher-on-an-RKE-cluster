@@ -1,0 +1,26 @@
+nodes:
+  - address: 165.227.114.64 #public-ip
+    internal_address: 172.16.22.13 #private-ip
+    user: ubuntu
+    role: [controlplane, worker, etcd] #controlplane - worker - etcd
+  - address: 165.227.116.168
+    internal_address: 172.16.32.38
+    user: ubuntu
+    role: [controlplane, worker, etcd]
+  - address: 165.227.127.227
+    internal_address: 172.16.42.74
+    user: ubuntu
+    role: [controlplane, worker, etcd]
+
+services:
+  etcd:
+    snapshot: true
+    creation: 6h
+    retention: 24h
+
+# Required for external TLS termination with
+# ingress-nginx v0.22+
+ingress:
+  provider: nginx
+  options:
+    use-forwarded-headers: "true"
