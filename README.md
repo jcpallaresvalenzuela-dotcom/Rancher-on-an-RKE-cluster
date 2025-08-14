@@ -87,7 +87,7 @@ sudo sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
 
 ### 4️⃣ Configurar Parámetros Requeridos por RKE
 
-    Aplicar en todos los nodos:
+Aplicar en todos los nodos:
 
 ```bash
 # Asegurar que el módulo está cargado
