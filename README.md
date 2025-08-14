@@ -58,13 +58,13 @@ apt-get install docker-ce docker-ce-cli containerd.io
 * Copiar las llaves SSH a ~/.ssh y ajustar permisos:
 
 ```bash
-    mkdir -p ~/.ssh
-    # Copia tus claves aquí (id_rsa, id_rsa.pub, config, known_hosts, etc.)
-    chmod 700 ~/.ssh
-    chmod 600 ~/.ssh/id_rsa
-    chmod 644 ~/.ssh/id_rsa.pub
-    chmod 600 ~/.ssh/config
-    chmod 644 ~/.ssh/known_hosts
+mkdir -p ~/.ssh
+# Copia tus claves aquí (id_rsa, id_rsa.pub, config, known_hosts, etc.)
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_rsa
+chmod 644 ~/.ssh/id_rsa.pub
+chmod 600 ~/.ssh/config
+chmod 644 ~/.ssh/known_hosts
 ```
 
 ### 3️⃣ Revisar Prerrequisitos de las VMs
@@ -74,9 +74,9 @@ apt-get install docker-ce docker-ce-cli containerd.io
     * Deshabilitar swap (recomendado para Kubernetes):¨
 
 ```bash
-    sudo swapoff -a
-    # Deshabilitar swap en reinicios
-    sudo sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
+sudo swapoff -a
+# Deshabilitar swap en reinicios
+sudo sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
 ```
 
 ### 4️⃣ Configurar Parámetros Requeridos por RKE
@@ -84,18 +84,17 @@ apt-get install docker-ce docker-ce-cli containerd.io
     Aplicar en todos los nodos:
 
 ```bash
-    # Asegurar que el módulo está cargado
-    sudo modprobe br_netfilter
+# Asegurar que el módulo está cargado
+sudo modprobe br_netfilter
 
-    # Reglas persistentes
-    cat <<'EOF' | sudo tee /etc/sysctl.d/99-kubernetes.conf
-    net.bridge.bridge-nf-call-iptables=1
-    net.ipv4.ip_forward=1
-    EOF
+# Reglas persistentes
+cat <<'EOF' | sudo tee /etc/sysctl.d/99-kubernetes.conf
+net.bridge.bridge-nf-call-iptables=1
+net.ipv4.ip_forward=1
+EOF
 
-    # Aplicar inmediatamente
-    sudo sysctl --system
-
+# Aplicar inmediatamente
+sudo sysctl --system
 ```
 
 ### 5️⃣ Instalar kubectl
@@ -108,13 +107,13 @@ apt-get install docker-ce docker-ce-cli containerd.io
     https://rancher.com/docs/rke/latest/en/installation/
 
 ```bash
-    # Descargar la versión estable (ejemplo v1.3.4)
-    curl -LO https://github.com/rancher/rke/releases/download/v1.3.4/rke_linux-amd64
-    sudo mv rke_linux-amd64 /usr/local/bin/rke
-    sudo chmod +x /usr/local/bin/rke
+# Descargar la versión estable (ejemplo v1.3.4)
+curl -LO https://github.com/rancher/rke/releases/download/v1.3.4/rke_linux-amd64
+sudo mv rke_linux-amd64 /usr/local/bin/rke
+sudo chmod +x /usr/local/bin/rke
 
-    # Verificar
-    rke --version
+# Verificar
+rke --version
 ```
 
 ### 8️⃣ Crear el Archivo de Configuración del Cluster
@@ -131,19 +130,19 @@ rke config --name cluster.yml
 ### 9️⃣ Desplegar Kubernetes con RKE
     
 ```bash
-    rke up
+rke up
 ```
 La última línea debe indicar:
 
 ```bash
-    Finished building Kubernetes cluster successfully
+Finished building Kubernetes cluster successfully
 ```
 
 ### 🔟 Exportar Configuración de RKE (Kubeconfig)
     https://rancher.com/docs/rancher/v2.6/en/installation/resources/k8s-tutorials/ha-rke/
 
 ```bash
-    export KUBECONFIG=./kube_config_cluster.yml
+export KUBECONFIG=./kube_config_cluster.yml
 ```    
 > Tu Kubeconfig para conectarte al cluster
 
@@ -151,55 +150,55 @@ La última línea debe indicar:
     https://rancher.com/docs/rancher/v2.6/en/installation/install-rancher-on-k8s/
 
 ```bash
-    helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
-    helm repo update
+helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+helm repo update
 ``` 
     
 ### 1️⃣2️⃣ Crear Namespace para Rancher
 
 ```bash        
-    kubectl create namespace cattle-system
+kubectl create namespace cattle-system
 ```
 
 ### 1️⃣3️⃣ Instalar cert-manager
     https://rancher.com/docs/rancher/v2.6/en/installation/install-rancher-on-k8s/
 
 ```bash        
-    # 1) Instalar CRDs
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.1/cert-manager.crds.yaml
+# 1) Instalar CRDs
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.1/cert-manager.crds.yaml
 
-    # 2) Agregar repositorio Jetstack
-    helm repo add jetstack https://charts.jetstack.io
+# 2) Agregar repositorio Jetstack
+helm repo add jetstack https://charts.jetstack.io
 
-    # 3) Actualizar repos
-    helm repo update
+# 3) Actualizar repos
+helm repo update
 
-    # 4) Instalar cert-manager
-    helm install cert-manager jetstack/cert-manager \
-        --namespace cert-manager \
-        --create-namespace \
-        --version v1.5.1
+# 4) Instalar cert-manager
+helm install cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --create-namespace \
+    --version v1.5.1
 
-    # 5) Verificar instalación
-    kubectl get pods --namespace cert-manager
+# 5) Verificar instalación
+kubectl get pods --namespace cert-manager
 ```
 
 ### 1️⃣4️⃣ Instalar Rancher con Helm
 
 ```bash
-    helm install rancher rancher-stable/rancher \
-        --namespace cattle-system \
-        --set hostname=testcluster.local \
-        --set bootstrapPassword=admin
+helm install rancher rancher-stable/rancher \
+    --namespace cattle-system \
+    --set hostname=testcluster.local \
+    --set bootstrapPassword=admin
 ```
 > Nota: Ajusta hostname a un FQDN accesible públicamente (o configúralo en /etc/hosts para pruebas).
 
 ### 1️⃣5️⃣ Verificar Despliegue de Rancher
 
-```bash
-    kubectl -n cattle-system rollout status deploy/rancher
-    kubectl -n cattle-system get deploy rancher
-    kubectl -n cattle-system get pods -o wide
+```sh
+kubectl -n cattle-system rollout status deploy/rancher
+kubectl -n cattle-system get deploy rancher
+kubectl -n cattle-system get pods -o wide
 ```
 
 ### 1️⃣6️⃣ Acceder a la Interfaz Web de Rancher
@@ -208,13 +207,13 @@ La última línea debe indicar:
 
     2 - Si es un entorno de pruebas, añade el hostname etc/hosts:
 
-```bash
-    echo "<IP_PUBLICA>  testcluster.local" | sudo tee -a /etc/hosts
+```sh
+echo "<IP_PUBLICA>  testcluster.local" | sudo tee -a /etc/hosts
 ```
 
     3 - Accede desde el navegador:
-```bash
-    https://testcluster.local
+```sh
+https://testcluster.local
 ```
 
     4 - Inicia sesión con admin y la contraseña definida en bootstrapPassword (cámbiala en el primer ingreso).
