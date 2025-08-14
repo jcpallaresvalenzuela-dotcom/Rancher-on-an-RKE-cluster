@@ -67,8 +67,6 @@ chmod 600 ~/.ssh/config
 chmod 644 ~/.ssh/known_hosts
 ```
 
----
-
 ### 3️⃣ Revisar Prerrequisitos de las VMs
 * Requisitos del sistema y compatibilidad: revisar guía oficial de Rancher.
 https://rancher.com/docs/rancher/v2.6/en/installation/requirements/
