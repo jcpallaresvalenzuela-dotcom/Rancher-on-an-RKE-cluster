@@ -48,8 +48,6 @@ apt-get update
 apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
----
-
 ### 2️⃣ Verificar Conectividad entre Nodos
 
 * Probar conectividad entre **workers** y **manager**:
@@ -72,18 +70,16 @@ chmod 644 ~/.ssh/known_hosts
 ---
 
 ### 3️⃣ Revisar Prerrequisitos de las VMs
-    * Requisitos del sistema y compatibilidad: revisar guía oficial de Rancher.
-    https://rancher.com/docs/rancher/v2.6/en/installation/requirements/
+* Requisitos del sistema y compatibilidad: revisar guía oficial de Rancher.
+https://rancher.com/docs/rancher/v2.6/en/installation/requirements/
 
-    * Deshabilitar swap (recomendado para Kubernetes):¨
+* Deshabilitar swap (recomendado para Kubernetes):¨
 
 ```bash
 sudo swapoff -a
 # Deshabilitar swap en reinicios
 sudo sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
 ```
-
----
 
 ### 4️⃣ Configurar Parámetros Requeridos por RKE
 
@@ -103,18 +99,14 @@ EOF
 sudo sysctl --system
 ```
 
----
-
 ### 5️⃣ Instalar kubectl
-    https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 ### 6️⃣ Instalar Helm
-    https://helm.sh/docs/introhelm/install/
+https://helm.sh/docs/introhelm/install/
 
 ### 7️⃣ Instalar RKE
-    https://rancher.com/docs/rke/latest/en/installation/
-
----
+https://rancher.com/docs/rke/latest/en/installation/
 
 ```bash
 # Descargar la versión estable (ejemplo v1.3.4)
@@ -127,7 +119,7 @@ rke --version
 ```
 
 ### 8️⃣ Crear el Archivo de Configuración del Cluster
-    https://rancher.com/docs/rke/latest/en/installation/
+https://rancher.com/docs/rke/latest/en/installation/
 
 ```bash
 # Interactivo
@@ -149,7 +141,7 @@ Finished building Kubernetes cluster successfully
 ```
 
 ### 🔟 Exportar Configuración de RKE (Kubeconfig)
-    https://rancher.com/docs/rancher/v2.6/en/installation/resources/k8s-tutorials/ha-rke/
+https://rancher.com/docs/rancher/v2.6/en/installation/resources/k8s-tutorials/ha-rke/
 
 ```bash
 export KUBECONFIG=./kube_config_cluster.yml
@@ -157,7 +149,7 @@ export KUBECONFIG=./kube_config_cluster.yml
 > Tu Kubeconfig para conectarte al cluster
 
 ### 1️⃣1️⃣ Agregar el Repositorio Helm de Rancher
-    https://rancher.com/docs/rancher/v2.6/en/installation/install-rancher-on-k8s/
+https://rancher.com/docs/rancher/v2.6/en/installation/install-rancher-on-k8s/
 
 ```bash
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
@@ -171,7 +163,7 @@ kubectl create namespace cattle-system
 ```
 
 ### 1️⃣3️⃣ Instalar cert-manager
-    https://rancher.com/docs/rancher/v2.6/en/installation/install-rancher-on-k8s/
+https://rancher.com/docs/rancher/v2.6/en/installation/install-rancher-on-k8s/
 
 ```bash        
 # 1) Instalar CRDs
@@ -213,20 +205,20 @@ kubectl -n cattle-system get pods -o wide
 
 ### 1️⃣6️⃣ Acceder a la Interfaz Web de Rancher
 
-    1 - Asegura que los puertos 80 y 443 estén abiertos en el nodo/ingress.
+1 - Asegura que los puertos 80 y 443 estén abiertos en el nodo/ingress.
 
-    2 - Si es un entorno de pruebas, añade el hostname etc/hosts:
+2 - Si es un entorno de pruebas, añade el hostname etc/hosts:
 
 ```sh
 echo "<IP_PUBLICA>  testcluster.local" | sudo tee -a /etc/hosts
 ```
 
-    3 - Accede desde el navegador:
+3 - Accede desde el navegador:
 ```sh
 https://testcluster.local
 ```
 
-    4 - Inicia sesión con admin y la contraseña definida en bootstrapPassword (cámbiala en el primer ingreso).
+4 - Inicia sesión con admin y la contraseña definida en bootstrapPassword (cámbiala en el primer ingreso).
 
 ---
 
